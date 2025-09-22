@@ -1,5 +1,5 @@
 # lx-rs
-tool to chunk text
+tool to chunk text (namespace: `lx`)
 
 ## acknowledgements
 
