@@ -83,6 +83,11 @@ $prompt:="Extract key facts"
 $url:="https://us.4d.com/leadership/"
 
 $results:=$lx.extract({url: $url; prompt: $prompt; provider: "Ollama"; model: "mistral"; workers: 8; multipass: True})
+
+$result:=$results[0]
+
+$result.extractions.query("extraction_class == :1"; "person").extract("extraction_text")
+//["Laurent Ribardiere","LAURENT RIBARDIERE","ATEF DRISSA"]
 ```
 
 ## acknowledgements
