@@ -133,8 +133,6 @@ Function extract($option : Variant; $formula : 4D:C1709.Function) : Collection
 			$command+=String:C10($option.maxChars)
 		End if 
 		
-		SET TEXT TO PASTEBOARD:C523($command)
-		
 		var $worker : 4D:C1709.SystemWorker
 		$worker:=This:C1470.controller.execute($command; $isStream ? $option.file : Null:C1517; $option.data).worker
 		
