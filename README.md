@@ -1,5 +1,5 @@
 # lx-rs
-tool to chunk text (namespace: `lx`)
+tool to extract information from potentially large text (namespace: `lx`)
 
 ### usage
 
