@@ -20,48 +20,48 @@ Else
 		$apiKey:=$secretFile.getText()
 	End if 
 	
-	$promt:="Extract names and ages"
+	//Basic extraction
 	
-	$file:=File:C1566("Macintosh HD:Users:miyako:Desktop:files:text.txt"; fk platform path:K87:2)
+	$input:="Alice Smith is 25 years old"
+	$file:=File:C1566(Temporary folder:C486+Generate UUID:C1066+".txt"; fk platform path:K87:2)
+	$file.setText($input)
 	
-	$lx.extract({file: $file; apiKey: $apiKey; provider: "openai"; model: "gpt-4o"})
+	$prompt:="Extract names and ages"
 	
+	If (False:C215)
+		
+		$results:=$lx.extract({file: $file; prompt: $prompt; apiKey: $apiKey; provider: "OpenAI"; model: "gpt-4o"})
+		
+		$result:=$results[0]
+		
+		$values:=$result.extractions.extract("extraction_text")
+		//[25,Alice Smith]
+		
+	End if 
 	
+	If (False:C215)
+		
+		$results:=$lx.extract({file: $file; prompt: $prompt; provider: "Ollama"; model: "mistral"; workers: 8; multipass: True:C214})
+		
+		$result:=$results[0]
+		
+		$values:=$result.extractions.extract("extraction_text")
+		//[25,Alice Smith]
+		
+	End if 
 	
-	//var $srcFolder : 4D.Folder
-	//$srcFolder:=Folder(fk documents folder).folder("samples/docx")
-	//$srcFolder:=Folder(fk desktop folder).folder("files")
+	//From URL
 	
-	//ASSERT($srcFolder.exists)
+	$prompt:="Extract key facts"
 	
-	//var $dstFolder : 4D.Folder
-	//$dstFolder:=Folder(fk desktop folder).folder("extract/docx")
-	//$dstFolder.create()
+	$url:="https://us.4d.com/leadership/"
 	
-	//$files:=$srcFolder.files(fk ignore invisible)
-	////$files:=$files.slice(0; 3)
+	$results:=$lx.extract({url: $url; prompt: $prompt; provider: "Ollama"; model: "mistral"; workers: 8; multipass: True:C214})
 	
-	//var $data : 4D.Blob
+	$result:=$results[0]
 	
-	//$tasks:=[]
-	////For each ($file; $files)
-	////$tasks.push({file: $file})
-	////End for each 
+	$result.extractions.query("extraction_class == :1"; "person").extract("extraction_text")
+	//["Laurent Ribardiere","LAURENT RIBARDIERE","ATEF DRISSA"]
 	
-	////file to text sync✅
-	////$texts:=$extract.getText($tasks)
-	
-	////file to text async✅
-	////$extract.getText($tasks; Formula(onResponse))
-	
-	//For each ($file; $files)
-	//$tasks.push({file: $file.getContent(); data: $file})
-	//End for each 
-	
-	////blob to text sync✅
-	////$texts:=$extract.getText($tasks)
-	
-	////blob to text async✅
-	//$extract.getText($tasks; Formula(onResponse))
 	
 End if 

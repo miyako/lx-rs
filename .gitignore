@@ -2,3 +2,6 @@ lx-rs/Resources/bin/MacOS/lx-rs.dmg
 rust/langextract-rust/
 lx-rs/userPreferences.*
 OpenAI.token
+lx-rs/Project/DerivedData/*
+lx-rs/Libraries/lib4d-arm64.dylib
+lx-rs/Data/*
