@@ -3,7 +3,7 @@ tool to chunk text (namespace: `lx`)
 
 ### usage
 
-get providers
+#### get providers
 
 ```4d
 var $lx : cs.lx
@@ -12,7 +12,7 @@ var $providers : Collection
 $providers:=$lx.providers()
 ```
 
-result 
+* result 
 
 ```json
 [
@@ -49,6 +49,30 @@ result
 		"type": "remote"
 	}
 ]
+```
+
+#### Basic extraction
+
+```4d	
+	$input:="Alice Smith is 25 years old"
+	$file:=File(Temporary folder+Generate UUID+".txt"; fk platform path)
+	$file.setText($input)
+	
+	$prompt:="Extract names and ages"
+	
+	$results:=$lx.extract({file: $file; prompt: $prompt; apiKey: $apiKey; provider: "OpenAI"; model: "gpt-4o"})
+	
+	$result:=$results[0]
+	
+	$values:=$result.extractions.extract("extraction_text")
+	//[25,Alice Smith]
+	
+	$results:=$lx.extract({file: $file; prompt: $prompt; provider: "Ollama"; model: "mistral"; workers: 8; multipass: True})
+	
+	$result:=$results[0]
+	
+	$values:=$result.extractions.extract("extraction_text")
+	//[25,Alice Smith]
 ```
 
 ## acknowledgements
