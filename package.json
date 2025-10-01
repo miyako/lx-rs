@@ -1,0 +1,18 @@
+{
+  "name": "lx-rs",
+  "description": "tool for extracting structured and grounded information from text using LLMs",
+  "author": [
+    "https://github.com/modularflow",
+    "Keisuke Miyako <keisuke.miyako@4D.com>"
+  ],
+  "license": "MIT",
+  "repository": "https://github.com/miyako/lx-rs",
+  "version": "20.0.0",
+  "tool": {
+    "platform": "macos",
+    "branch": "20.x",
+    "version": "20.7",
+    "build": "latest",
+    "arch": "arm"
+  }
+}
