@@ -1,9 +1,9 @@
 # lx-rs
-tool to chunk text (namespace: `lx`)
+tool to extract information from potentially large text (namespace: `lx`)
 
 ### usage
 
-get providers
+#### get providers
 
 ```4d
 var $lx : cs.lx
@@ -12,7 +12,7 @@ var $providers : Collection
 $providers:=$lx.providers()
 ```
 
-result 
+* result 
 
 ```json
 [
@@ -49,6 +49,45 @@ result
 		"type": "remote"
 	}
 ]
+```
+
+#### Basic extraction
+
+```4d	
+$input:="Alice Smith is 25 years old"
+$file:=File(Temporary folder+Generate UUID+".txt"; fk platform path)
+$file.setText($input)
+
+$prompt:="Extract names and ages"
+
+$results:=$lx.extract({file: $file; prompt: $prompt; apiKey: $apiKey; provider: "OpenAI"; model: "gpt-4o"})
+
+$result:=$results[0]
+
+$values:=$result.extractions.extract("extraction_text")
+//[25,Alice Smith]
+
+$results:=$lx.extract({file: $file; prompt: $prompt; provider: "Ollama"; model: "mistral"; workers: 8; multipass: True})
+
+$result:=$results[0]
+
+$values:=$result.extractions.extract("extraction_text")
+//[25,Alice Smith]
+```
+
+#### Basic extraction (URL)
+
+```4d
+$prompt:="Extract key facts"
+
+$url:="https://us.4d.com/leadership/"
+
+$results:=$lx.extract({url: $url; prompt: $prompt; provider: "Ollama"; model: "mistral"; workers: 8; multipass: True})
+
+$result:=$results[0]
+
+$result.extractions.query("extraction_class == :1"; "person").extract("extraction_text")
+//["Laurent Ribardiere","LAURENT RIBARDIERE","ATEF DRISSA"]
 ```
 
 ## acknowledgements
